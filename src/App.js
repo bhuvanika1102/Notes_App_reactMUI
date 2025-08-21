@@ -10,32 +10,28 @@ import {
   clearNotesIndexedDB,
   saveNoteFirebase,
   deleteNoteFirebase,
-  clearNotesFirebase ,
+  clearNotesFirebase,
 } from "./dbService";
-import useNetworkStatus from './Network/useNetworkStatus'
+import useNetworkStatus from "./Network/useNetworkStatus";
 import { Alert } from "@mui/material";
-// --- Sync Function ---
 async function syncToFirebase() {
   if (!navigator.onLine) return;
 
-  console.log("🌐 Online: Syncing notes to Firebase...");
+  console.log("Online: Syncing notes to Firebase...");
 
-  // 1. Get all local notes
   const localNotes = await getAllNotesIndexedDB();
 
-  // 2. Push each note to Firebase
   for (const note of localNotes) {
     await saveNoteFirebase(note);
   }
 
-  console.log("✅ Sync complete!");
+  console.log("Sync complete!");
 }
 
 function App() {
   const [notes, setNotes] = useState([]);
   const isOnline = useNetworkStatus();
 
-  // Load from IndexedDB on mount
   useEffect(() => {
     (async () => {
       const storedNotes = await getAllNotesIndexedDB();
@@ -43,8 +39,7 @@ function App() {
     })();
   }, []);
 
-   // ✅ When WiFi reconnects → sync
-   useEffect(() => {
+  useEffect(() => {
     const handleOnline = async () => {
       await syncToFirebase();
     };
@@ -74,7 +69,6 @@ function App() {
     }
   };
 
-
   const deleteNote = async (id) => {
     setNotes(notes.filter((note) => note.id !== id));
     await deleteNoteIndexedDB(id);
@@ -86,12 +80,11 @@ function App() {
   const deleteAllNotes = async () => {
     setNotes([]);
     await clearNotesIndexedDB();
-  
+
     if (navigator.onLine) {
       await clearNotesFirebase();
     }
   };
-  
 
   return (
     <Container maxWidth="md">
@@ -104,8 +97,7 @@ function App() {
         NotesApp
       </Typography>
 
-{/* ✅ Show banner for offline/online */}
-{!isOnline && (
+      {!isOnline && (
         <Alert severity="warning" sx={{ mb: 2 }}>
           You are offline. Notes will be saved locally and synced when online.
         </Alert>
@@ -129,7 +121,11 @@ function App() {
         </Button>
       )}
 
-      <NotesList notes={notes} deleteNote={deleteNote} updateNote={updateNote} />
+      <NotesList
+        notes={notes}
+        deleteNote={deleteNote}
+        updateNote={updateNote}
+      />
     </Container>
   );
 }

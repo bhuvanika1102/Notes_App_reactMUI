@@ -1,6 +1,12 @@
 import { openDB } from "idb";
 import { db } from "./firebase";
-import { collection, setDoc, deleteDoc, doc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  setDoc,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 const DB_NAME = "notesDB";
 const STORE_NAME = "notes";
 
@@ -14,7 +20,6 @@ export async function initDB() {
   });
 }
 
-// ------------------ IndexedDB ------------------
 export async function saveNoteIndexedDB(note) {
   const db = await initDB();
   await db.put(STORE_NAME, note);
@@ -35,20 +40,17 @@ export async function clearNotesIndexedDB() {
   await db.clear(STORE_NAME);
 }
 
-// ------------------ Firebase ------------------
 const notesCollection = collection(db, "notes");
 
 export async function saveNoteFirebase(note) {
-  await setDoc(doc(db, "notes", String(note.id)), note); // id as doc id
+  await setDoc(doc(db, "notes", String(note.id)), note);
 }
 
 export async function deleteNoteFirebase(id) {
   await deleteDoc(doc(db, "notes", String(id)));
 }
 export async function clearNotesFirebase() {
-    const snapshot = await getDocs(notesCollection);
-    const deletions = snapshot.docs.map((docSnap) =>
-      deleteDoc(docSnap.ref)   // ✅ no need for id, use docSnap.ref
-    );
-    await Promise.all(deletions);
-  }
+  const snapshot = await getDocs(notesCollection);
+  const deletions = snapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
+  await Promise.all(deletions);
+}

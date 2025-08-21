@@ -7,7 +7,7 @@ function NotesList({ notes, deleteNote, updateNote }) {
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", // ✅ auto responsive
+        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
         gap: 2,
       }}
     >

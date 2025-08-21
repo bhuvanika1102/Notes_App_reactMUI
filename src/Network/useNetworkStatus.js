@@ -1,4 +1,3 @@
-// src/hooks/useNetworkStatus.js
 import { useState, useEffect } from "react";
 
 export default function useNetworkStatus() {

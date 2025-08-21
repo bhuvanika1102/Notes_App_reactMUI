@@ -123,7 +123,6 @@ function NoteCard({ note, deleteNote, updateNote }) {
         </Box>
       </Card>
 
-      {/* ✅ View Dialog */}
       <Dialog
         open={isViewOpen}
         onClose={() => setIsViewOpen(false)}

@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
 
 const colors = ["#FFD54F", "#F48FB1", "#A5D6A7", "#81D4FA", "#E0E0E0"];
 
 function NoteForm({ addNote }) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [color, setColor] = useState(colors[0]);
+  const [color, setColor] = useState(colors[4]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,7 +20,7 @@ function NoteForm({ addNote }) {
     addNote({ title, text, color });
     setTitle("");
     setText("");
-    setColor(colors[0]);
+    setColor(colors[4]);
   };
 
   return (
